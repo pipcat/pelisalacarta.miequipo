@@ -59,8 +59,8 @@ function setStream(token) {
 }
     '''
 
-    url = scrapertools.find_single_match (data2, "'file': '([^']+)'", 1)
-    return url
+    #url = scrapertools.find_single_match (data2, "'file': '([^']+)'", 1)
+    #return url
 
     tokenurl = scrapertools.find_single_match (data2, 'getJSON\("([^"]+)"')
     data3 = scrapertools.cache_page(tokenurl,headers=headers)
@@ -70,7 +70,7 @@ function setStream(token) {
     swfurl = 'http://www.iguide.to/player/secure_player_iguide_embed_token.swf'
 
     rtmpurl = scrapertools.find_single_match (data2, "'streamer': '([^']+)'")
-    fileflv = scrapertools.find_single_match (data2, "'file': '([^']+)'")
+    fileflv = scrapertools.find_single_match (data2, "'file': '([^'\.]+)")
 
     url = '%s playpath=%s swfUrl=%s live=1 token=%s timeout=15 swfVfy=1 pageUrl=%s' % (rtmpurl, fileflv, swfurl, tokenvalue, pageurl)
     
