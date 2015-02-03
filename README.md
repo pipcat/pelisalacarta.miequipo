@@ -71,3 +71,4 @@ Los enlaces dependen de servidores externos.
 - [ ] liveall : teóricamente resuelta url, pero pendiente comprobarlo
 - [ ] ezcast : teóricamente resuelta url, pero pendiente comprobarlo
 - [ ] ustream : teóricamente resuelta url, pero pendiente comprobarlo
+- [x] tutele : ok
