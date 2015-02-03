@@ -1,7 +1,7 @@
 # pelisalacarta.miequipo
 Canal extra para añadir al plugin pelisalacarta, que permite ver los partidos de mi equipo.
 
-### Ficheros a modificar respecto al pelisalacarta original:
+#### Ficheros a modificar respecto al pelisalacarta original:
 
 Básicamente hay que modificar la configuración para incorporar un campo de texto con nuestro equipo preferido (settings.conf y settings.xml), el selector de canales principal para añadir un enlace al nuevo canal (channelselector.py) y el launcher.py para importar el código del canal.
 
@@ -30,7 +30,7 @@ Añadir:
                 `import pelisalacarta.miequipo as channel`  
 
 
-### Ficheros a añadir respecto al pelisalacarta original:
+#### Ficheros a añadir respecto al pelisalacarta original:
 
 .kodi/addons/plugin.video.pelisalacarta/pelisalacarta/miequipo.py
 Código principal del canal
@@ -64,10 +64,10 @@ Los enlaces dependen de servidores externos.
 
 ### Servidores probados: 
 
-- lshstream : ok
-- ucaster/tashtv : url final teóricamente resuelta, pero el rtmp no se reproduce y deja colgado el Kodi (probado solo en Ubuntu).
-- iguide : teóricamente resuelta url, pero pendiente comprobarlo
-- 04stream : teóricamente resuelta url, pero pendiente comprobarlo
-- liveall : teóricamente resuelta url, pero pendiente comprobarlo
-- ezcast : teóricamente resuelta url, pero pendiente comprobarlo
-- ustream : teóricamente resuelta url, pero pendiente comprobarlo
+- [x] lshstream : ok
+- [] ucaster/tashtv : url final teóricamente resuelta, pero el rtmp no se reproduce y deja colgado el Kodi (probado solo en Ubuntu).
+- [] iguide : teóricamente resuelta url, pero pendiente comprobarlo
+- [] 04stream : teóricamente resuelta url, pero pendiente comprobarlo
+- [] liveall : teóricamente resuelta url, pero pendiente comprobarlo
+- [] ezcast : teóricamente resuelta url, pero pendiente comprobarlo
+- [] ustream : teóricamente resuelta url, pero pendiente comprobarlo
