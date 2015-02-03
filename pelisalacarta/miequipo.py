@@ -23,7 +23,7 @@ DEBUG = config.get_setting("debug")
 MIEQUIPO = config.get_setting("miequipoprefe")
 
 # Detección de enlaces en los siguientes servidores de deportes, ubicados en /serverssports/
-SPORTS_SERVERS = ['lshstream', 'liveall', '04stream', 'iguide', 'ucaster', 'tashtv']
+SPORTS_SERVERS = ['lshstream', 'liveall', '04stream', 'iguide', 'ucaster', 'tashtv', 'ezcast', 'ustream']
 
 DEFAULT_HEADERS=[]
 DEFAULT_HEADERS.append(["User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:20.0) Gecko/20100101 Firefox/20.0"])
