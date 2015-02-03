@@ -10,12 +10,12 @@ Añadir la siguiente línea, cambiando Barcelona por tu equipo preferido
 miequipoprefe=Barcelona
 
 .kodi/addons/plugin.video.pelisalacarta/resources/settings.xml  
-Añadir la siguiente línea, dentro de <category label="General">  
-    <setting id="miequipoprefe" type="text" label="Mi equipo" default="Barcelona"/>  
+Añadir la siguiente línea, dentro de `<category label="General">`  
+    `<setting id="miequipoprefe" type="text" label="Mi equipo" default="Barcelona"/>`  
 
 .kodi/addons/plugin.video.pelisalacarta/platformcode/xbmc/settings.xml  
 Añadir la siguiente línea, después de <setting id="player_mode" .../>  
-    <setting id="miequipoprefe" type="text" label="Mi equipo" default="Barcelona"/>  
+    `<setting id="miequipoprefe" type="text" label="Mi equipo" default="Barcelona"/>`  
 
 .kodi/addons/plugin.video.pelisalacarta/channelselector.py  
 Añadir la siguiente línea, dentro de def getmainlist():  
