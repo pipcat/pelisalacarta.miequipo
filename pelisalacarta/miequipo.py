@@ -134,6 +134,7 @@ def rojadirecta(item):
             patron2 = '<tr>\s*<td>NO</td>\s*<td>(?!bwin|bet365)([^<]*)</td>\s*<td>([^<]*)</td>\s*<td>([^<]*).*?</td>\s*<td>(.*?)</td>\s*<td>(?:<b>)?<a[^>]*href="([^"]+)"'
             matches2 = re.compile(patron2,re.DOTALL).findall(inner)
             for nombre,idioma,tipo,calidad,enlace in matches2:
+                tipo = tipo.strip()
                 titulo = nombre + ' - ' + idioma + ' - ' + calidad.replace('<!--9000-->','').replace(' (<span class="es">e</span>stable)','') + ' kbps - '
                 titulo += '[B]'+tipo+'[/B]' if tipo.lower() in SPORTS_SERVERS else '[COLOR=red]'+tipo+'[/COLOR]'
                 url = enlace.replace('#www.rojadirecta.me','').replace('goto/','http://')
