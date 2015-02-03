@@ -7,7 +7,7 @@ Básicamente hay que modificar la configuración para incorporar un campo de tex
 
 .kodi/addons/plugin.video.pelisalacarta/resources/settings.conf  
 Añadir la siguiente línea, cambiando Barcelona por tu equipo preferido  
-miequipoprefe=Barcelona
+`miequipoprefe=Barcelona`  
 
 .kodi/addons/plugin.video.pelisalacarta/resources/settings.xml  
 Añadir la siguiente línea, dentro de `<category label="General">`  
@@ -19,15 +19,15 @@ Añadir la siguiente línea, después de <setting id="player_mode" .../>
 
 .kodi/addons/plugin.video.pelisalacarta/channelselector.py  
 Añadir la siguiente línea, dentro de def getmainlist():  
-    itemlist.append( Item(title="Mi equipo" , channel="miequipo" , action="mainlist" ) )  
+    `itemlist.append( Item(title="Mi equipo" , channel="miequipo" , action="mainlist" ) )`  
 
 .kodi/addons/plugin.video.pelisalacarta/platformcode/xbmc/launcher.py  
 Dentro de def run():, detrás de:  
             if channel_name=="buscador":  
                 import pelisalacarta.buscador as channel  
 Añadir:  
-            elif channel_name=="miequipo":  
-                import pelisalacarta.miequipo as channel  
+            `elif channel_name=="miequipo":`  
+                `import pelisalacarta.miequipo as channel`  
 
 
 ### Ficheros a añadir respecto al pelisalacarta original:
@@ -69,3 +69,5 @@ Los enlaces dependen de servidores externos.
 - iguide : teóricamente resuelta url, pero pendiente comprobarlo
 - 04stream : teóricamente resuelta url, pero pendiente comprobarlo
 - liveall : teóricamente resuelta url, pero pendiente comprobarlo
+- ezcast : teóricamente resuelta url, pero pendiente comprobarlo
+- ustream : teóricamente resuelta url, pero pendiente comprobarlo
