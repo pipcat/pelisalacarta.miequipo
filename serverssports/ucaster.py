@@ -62,7 +62,7 @@ def find_url_play(data, headers):
 
     swfurl = 'http://www.embeducaster.com' + scrapertools.find_single_match (data2, 'new SWFObject\("([^"]+)"')
 
-    url = '%s playpath=%s?id=%s swfUrl=%s swfVfy=1 conn=S:OK live=1 pageUrl=%s' % (rtmpurl, svalue, idvalue, swfurl, pageurl)
+    url = '%s playpath=%s?id=%s swfUrl=%s swfVfy=1 conn=S:OK live=1 timeout=20 pageUrl=%s' % (rtmpurl, svalue, idvalue, swfurl, pageurl)
     #url = '%s playpath=%s?id=%s swfUrl=%s conn=S:OK live=1 pageUrl=%s --live' % (rtmpurl, svalue, idvalue, swfurl, pageurl)
     
     return url
