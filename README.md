@@ -65,10 +65,10 @@ Los enlaces dependen de servidores externos.
 ### Servidores probados: 
 
 - [x] lshstream : ok
-- [ ] ucaster/tashtv : url final teóricamente resuelta, pero el rtmp no se reproduce y deja colgado el Kodi (probado solo en Ubuntu).
-- [ ] iguide : teóricamente resuelta url, pero pendiente comprobarlo
+- [x] iguide : ok
+- [x] tutele : ok
+- [x] ustream : ok
+- [ ] ucaster/tashtv : url final teóricamente resuelta, pero falla
+- [ ] ezcast : teóricamente resuelta url, pero falla
 - [ ] 04stream : teóricamente resuelta url, pero pendiente comprobarlo
 - [ ] liveall : teóricamente resuelta url, pero pendiente comprobarlo
-- [ ] ezcast : teóricamente resuelta url, pero pendiente comprobarlo
-- [ ] ustream : teóricamente resuelta url, pero pendiente comprobarlo
-- [x] tutele : ok
