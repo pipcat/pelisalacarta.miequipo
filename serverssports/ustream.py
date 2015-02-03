@@ -17,10 +17,16 @@ DEBUG = config.get_setting("debug")
 def find_url_play(data, headers):
     logger.info("[ustream.py] find_url_play")
 
-    cid = scrapertools.find_single_match (data, "ustream.vars.contentId=['\"]([^'\"]+)")
-    #cid = scrapertools.find_single_match (data, "ustream.vars.channelId=['\"]([^'\"]+)")
+    '''
+<iframe width="700" height="450" src="http://www.ustream.tv/embed/19903720?v=3&amp;wmode=direct" scrolling="no" frameborder="0" style="border: 0px none transparent;"> </iframe>
+    '''
+
+    cid = scrapertools.find_single_match (data, 'src="http://www.ustream.tv/embed/([^\?]+)')
     if cid == '':
-        return ''
+        #cid = scrapertools.find_single_match (data, "ustream.vars.contentId=['\"]([^'\"]+)")
+        cid = scrapertools.find_single_match (data, "ustream.vars.channelId=['\"]([^'\"]+)")        
+        if cid == '':
+            return ''
 
     url = 'http://iphone-streaming.ustream.tv/uhls/%s/streams/live/iphone/playlist.m3u8' % cid
 
