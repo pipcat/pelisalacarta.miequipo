@@ -24,6 +24,7 @@ MIEQUIPO = config.get_setting("miequipoprefe")
 
 # Detección de enlaces en los siguientes servidores de deportes, ubicados en /serverssports/ :
 SPORTS_SERVERS = ['lshstream', 'liveall', '04stream', 'iguide', 'ucaster', 'ezcast', 'ustream', 'tutele', 'livego', 'myhdcast', 'goodcast']
+SPORTS_SERVERS.extend(['jjcast'])
 
 # Detección de servidores indirectamente (tashtv->ucaster) (liveligatv->myhdcast) :
 SPORTS_SERVERS.extend(['tashtv', 'liveligatv'])
