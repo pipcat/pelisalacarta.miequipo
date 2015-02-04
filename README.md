@@ -69,6 +69,7 @@ Los enlaces dependen de servidores externos.
 - [x] tutele : ok
 - [x] ustream : ok
 - [x] myhdcast/liveligatv : ok
+- [x] goodcast/tuttosportweb : ok
 - [ ] ucaster/tashtv : url final teóricamente resuelta, pero falla
 - [ ] ezcast : teóricamente resuelta url, pero falla
 - [ ] 04stream : teóricamente resuelta url, pero pendiente comprobarlo
