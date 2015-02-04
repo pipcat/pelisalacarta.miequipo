@@ -23,7 +23,7 @@ DEBUG = config.get_setting("debug")
 MIEQUIPO = config.get_setting("miequipoprefe")
 
 # Detección de enlaces en los siguientes servidores de deportes, ubicados en /serverssports/ :
-SPORTS_SERVERS = ['lshstream', 'liveall', '04stream', 'iguide', 'ucaster', 'ezcast', 'ustream', 'tutele', 'livego', 'myhdcast']
+SPORTS_SERVERS = ['lshstream', 'liveall', '04stream', 'iguide', 'ucaster', 'ezcast', 'ustream', 'tutele', 'livego', 'myhdcast', 'goodcast']
 
 # Detección de servidores indirectamente (tashtv->ucaster) (liveligatv->myhdcast) :
 SPORTS_SERVERS.extend(['tashtv', 'liveligatv'])
@@ -64,6 +64,7 @@ def lshunter(item):
         scrapedtitle = scrapertools.find_single_match(match,'<span class="lshevent">([^<]+)</span>')
         if MIEQUIPO in scrapedtitle:
             if (DEBUG): logger.info("match="+match)
+            plot = scrapertools.htmlclean(scrapedtitle.strip())
 
             matches2 = re.compile('<tr class="sectiontable([^"]+)">(.*?)</tr>',re.DOTALL).findall(match)
             for section,inner in matches2:
@@ -85,7 +86,7 @@ def lshunter(item):
                         url = 'http://live.drakulastream.eu/static/popups/%s%s%s%s.html' % (event_id,tv_id,tid,chan)
                         titulo = section_name + ' [' + server_name + '~' + str(n+1) + ']'
                         if (DEBUG): logger.info("LINK: "+section_name+" : "+server_name+" : "+scrapedurl+" :: "+url)
-                        itemlist.append( Item(channel=__channel__, action="play" , title=titulo , url=url))
+                        itemlist.append( Item(channel=__channel__, action="play" , title=titulo , url=url, plot=plot))
 
             break
 
@@ -107,11 +108,12 @@ def firstrow(item):
         if (DEBUG): logger.info("scrapedtitle="+scrapedtitle)
         if MIEQUIPO in scrapedtitle:
             if (DEBUG): logger.info("inner="+inner)
+            plot = scrapertools.htmlclean(scrapedtitle.strip())
             patron2 = "href='([^']+)'>([^<]+)</a>"
             matches2 = re.compile(patron2,re.DOTALL).findall(inner)
             for enlace,nombre in matches2:
                 url = urlparse.urljoin(item.url, enlace)
-                itemlist.append( Item(channel=__channel__, action="play" , title=nombre , url=url))
+                itemlist.append( Item(channel=__channel__, action="play" , title=nombre , url=url, plot=plot))
                 if (DEBUG): logger.info("innerurl="+url)
 
     return itemlist
@@ -131,6 +133,8 @@ def rojadirecta(item):
         if (DEBUG): logger.info("scrapedtitle="+scrapedtitle)
         if MIEQUIPO in scrapedtitle:
             idtab = scrapedid.replace('sub','taboastreams')
+            aux_time, aux_info = scrapertools.find_single_match (data, '\''+idtab+'[^<]+<meta[^<]+<span class="t">([^<]+)</span></time>([^<]+)')
+            plot = aux_time + ' ' + aux_info.strip() + ' ' + scrapedtitle.strip()
             inner = scrapertools.find_single_match(data,'<table class="taboastreams" id="'+idtab+'"[^<]+<tbody>(.*?)</tbody>')
             if (DEBUG): logger.info("inner="+inner)
 
@@ -141,7 +145,7 @@ def rojadirecta(item):
                 titulo = nombre + ' - ' + idioma + ' - ' + calidad.replace('<!--9000-->','').replace(' (<span class="es">e</span>stable)','') + ' kbps - '
                 titulo += '[B]'+tipo+'[/B]' if tipo.lower() in SPORTS_SERVERS else '[COLOR=red]'+tipo+'[/COLOR]'
                 url = enlace.replace('#www.rojadirecta.me','').replace('goto/','http://')
-                itemlist.append( Item(channel=__channel__, action="play" , title=titulo , url=url))
+                itemlist.append( Item(channel=__channel__, action="play" , title=titulo , url=url, plot=plot))
 
     return itemlist
 
@@ -150,6 +154,11 @@ def play(item):
     logger.info("[miequipo.py] play")
     itemlist = []
     url = ''
+
+    # Corrección de urls
+    aux = scrapertools.find_single_match (item.url, "tuttosportweb.com/([\w]+.php)")
+    if aux != '':
+        item.url = 'http://tuttosportweb.com/update/%s' % aux
 
     data = scrapertools.cachePage(item.url,headers=DEFAULT_HEADERS)
     if (DEBUG): logger.info("data="+data)
