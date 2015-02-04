@@ -17,7 +17,7 @@ DEBUG = config.get_setting("debug")
 def find_url_play(data, headers):
     logger.info("[lshstream.py] find_url_play")
 
-    patron = '<script type="text/javascript"> fid="([^"]+)";[^<]+</script><script type="text/javascript" src="http://cdn.lshstream.com/embed.js"></script>'
+    patron = 'fid=["\']([^"\']+)[^<]+</script><script type=["\']text/javascript["\'] src=["\']http://cdn.lshstream.com/embed.js["\']'
 
     fid = scrapertools.find_single_match (data, patron)
     if fid == '':
