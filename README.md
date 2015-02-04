@@ -70,9 +70,9 @@ Los enlaces dependen de servidores externos.
 - [x] ustream : ok
 - [x] myhdcast/liveligatv : ok
 - [x] goodcast/tuttosportweb : ok
+- [x] liveall : ok
 - [ ] ucaster/tashtv : url final teóricamente resuelta, pero falla
 - [ ] ezcast : teóricamente resuelta url, pero falla
 - [ ] 04stream : teóricamente resuelta url, pero pendiente comprobarlo
-- [ ] liveall : teóricamente resuelta url, pero pendiente comprobarlo
 
 Nota: En rojadirecta el servidor que se muestra en el listado a veces no se corresponde con el servidor real!
