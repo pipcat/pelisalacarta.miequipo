@@ -22,8 +22,11 @@ DEBUG = config.get_setting("debug")
 # Nombre del equipo del que se buscan los enlaces
 MIEQUIPO = config.get_setting("miequipoprefe")
 
-# Detección de enlaces en los siguientes servidores de deportes, ubicados en /serverssports/
-SPORTS_SERVERS = ['lshstream', 'liveall', '04stream', 'iguide', 'ucaster', 'tashtv', 'ezcast', 'ustream', 'tutele']
+# Detección de enlaces en los siguientes servidores de deportes, ubicados en /serverssports/ :
+SPORTS_SERVERS = ['lshstream', 'liveall', '04stream', 'iguide', 'ucaster', 'ezcast', 'ustream', 'tutele', 'livego', 'myhdcast']
+
+# Detección de servidores indirectamente (tashtv->ucaster) (liveligatv->myhdcast) :
+SPORTS_SERVERS.extend(['tashtv', 'liveligatv'])
 
 DEFAULT_HEADERS=[]
 DEFAULT_HEADERS.append(["User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:20.0) Gecko/20100101 Firefox/20.0"])
