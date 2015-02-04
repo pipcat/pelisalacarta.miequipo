@@ -48,6 +48,16 @@ def mainlist(item):
 
     return itemlist
 
+def formatear_server(nombre, estado=-1):
+    if estado == -1: # determinar según si está o no en los servers
+        estado = 1 if nombre.lower() in SPORTS_SERVERS else 2
+
+    if estado == 1:
+        return '[B]'+nombre+'[/B]'
+    elif estado == 2:
+        return '[COLOR=red]'+nombre+'[/COLOR]'
+    else:
+        return nombre
 
 def lshunter(item):
     logger.info("[miequipo.py] lshunter")
@@ -74,6 +84,9 @@ def lshunter(item):
                 else:
                     #server_name = scrapertools.find_single_match(inner,'<img title="([^"]+)"')
                     server_name = scrapertools.find_single_match(inner,'<td width="80"><a>([^:]+)')
+                    server_name_fmt = formatear_server(server_name, 1) if section_name != 'Other Links:' else formatear_server(server_name)
+
+                    '''
                     #matches3 = re.compile('<a href=\'javascript:openWindow\("([^"]+)"',re.DOTALL).findall(inner)
                     matches3 = re.compile('<a href=\'javascript:openWindow\("([^"]+)"',re.DOTALL | re.IGNORECASE).findall(inner)
                     for n, scrapedurl in enumerate(matches3):
@@ -84,8 +97,15 @@ def lshunter(item):
                             event_id,tid,chan = scrapertools.find_single_match(scrapedurl,'event_id=([^&]+)&tid=([^&]+)&channel=([^&]+)&')
                             tv_id = '0'
                         url = 'http://live.drakulastream.eu/static/popups/%s%s%s%s.html' % (event_id,tv_id,tid,chan)
-                        titulo = section_name + ' [' + server_name + '~' + str(n+1) + ']'
+                        titulo = section_name + ' [' + server_name_fmt + '~' + str(n+1) + ']'
                         if (DEBUG): logger.info("LINK: "+section_name+" : "+server_name+" : "+scrapedurl+" :: "+url)
+                        itemlist.append( Item(channel=__channel__, action="play" , title=titulo , url=url, plot=plot))
+                    '''
+
+                    matches3 = re.compile('href=["\'](http://live.drakulastream.eu/players/[^"\']+)',re.DOTALL).findall(inner)
+                    for n, url in enumerate(matches3):
+                        titulo = section_name + ' ' + server_name_fmt + '-' + str(n+1)
+                        if (DEBUG): logger.info("LINK: "+section_name+" : "+server_name+" : "+url)
                         itemlist.append( Item(channel=__channel__, action="play" , title=titulo , url=url, plot=plot))
 
             break
@@ -142,8 +162,7 @@ def rojadirecta(item):
             matches2 = re.compile(patron2,re.DOTALL).findall(inner)
             for nombre,idioma,tipo,calidad,enlace in matches2:
                 tipo = tipo.strip()
-                titulo = nombre + ' - ' + idioma + ' - ' + calidad.replace('<!--9000-->','').replace(' (<span class="es">e</span>stable)','') + ' kbps - '
-                titulo += '[B]'+tipo+'[/B]' if tipo.lower() in SPORTS_SERVERS else '[COLOR=red]'+tipo+'[/COLOR]'
+                titulo = nombre + ' - ' + idioma + ' - ' + calidad.replace('<!--9000-->','').replace(' (<span class="es">e</span>stable)','') + ' kbps - ' + formatear_server(tipo)
                 url = enlace.replace('#www.rojadirecta.me','').replace('goto/','http://')
                 itemlist.append( Item(channel=__channel__, action="play" , title=titulo , url=url, plot=plot))
 
