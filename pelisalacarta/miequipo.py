@@ -23,11 +23,12 @@ DEBUG = config.get_setting("debug")
 MIEQUIPO = config.get_setting("miequipoprefe")
 
 # Detección de enlaces en los siguientes servidores de deportes, ubicados en /serverssports/ :
-SPORTS_SERVERS = ['lshstream', 'liveall', '04stream', 'iguide', 'ucaster', 'ezcast', 'ustream', 'tutele', 'livego', 'myhdcast', 'goodcast']
-SPORTS_SERVERS.extend(['jjcast'])
+SPORTS_SERVERS = ['lshstream', '04stream', 'iguide', 'ucaster', 'ezcast', 'ustream', 'tutele', 'livego', 'myhdcast', 'goodcast']
+SPORTS_SERVERS.extend(['jjcast', 'liveall', 'leton'])
 
 # Detección de servidores indirectamente (tashtv->ucaster) (liveligatv->myhdcast) :
-SPORTS_SERVERS.extend(['tashtv', 'liveligatv'])
+# Quitado pq ahora deberían detectarse con la búsqueda de iframes
+# SPORTS_SERVERS.extend(['tashtv', 'liveligatv'])
 
 DEFAULT_HEADERS=[]
 DEFAULT_HEADERS.append(["User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:20.0) Gecko/20100101 Firefox/20.0"])
@@ -85,7 +86,7 @@ def lshunter(item):
                 else:
                     #server_name = scrapertools.find_single_match(inner,'<img title="([^"]+)"')
                     server_name = scrapertools.find_single_match(inner,'<td width="80"><a>([^:]+)')
-                    server_name_fmt = formatear_server(server_name, 1) if section_name != 'Other Links:' else formatear_server(server_name)
+                    server_name_fmt = formatear_server(server_name, 1) if section_name != 'Other Links:' and server_name != 'Flash' else formatear_server(server_name)
 
                     '''
                     #matches3 = re.compile('<a href=\'javascript:openWindow\("([^"]+)"',re.DOTALL).findall(inner)
@@ -173,14 +174,58 @@ def rojadirecta(item):
 def play(item):
     logger.info("[miequipo.py] play")
     itemlist = []
-    url = ''
 
     # Corrección de urls
-    aux = scrapertools.find_single_match (item.url, "tuttosportweb.com/([\w]+.php)")
-    if aux != '':
-        item.url = 'http://tuttosportweb.com/update/%s' % aux
+    if item.url == 'http://tuttosportweb.com':
+        item.url = 'http://tuttosportweb.com/update/ch1.php'
+    else:
+        aux = scrapertools.find_single_match (item.url, "tuttosportweb.com/([\w]+.php)")
+        if aux != '':
+            item.url = 'http://tuttosportweb.com/update/%s' % aux
 
     data = scrapertools.cachePage(item.url,headers=DEFAULT_HEADERS)
+
+    headers = DEFAULT_HEADERS[:]
+    headers.append(["Referer",item.url])
+
+    url =  buscar_url_valida(data, headers)
+    if url == '':
+        # Buscar si hay algun iframe que pudiera contener el video (width>=500 y height>=300 !?)
+        patron = '<iframe([^>]+)'
+        matches = re.compile(patron,re.DOTALL | re.IGNORECASE).findall(data)
+        for match in matches:
+            #logger.info("iframe match "+match) # marginheight="0" marginwidth="0" style="width: 700px; height: 450px" width="650" height="80"
+            w = re.findall ('[^n]width\s*[:=][^\d]*(\d+)', match, re.DOTALL | re.IGNORECASE)
+            h = re.findall ('[^n]height\s*[:=][^\d]*(\d+)', match, re.DOTALL | re.IGNORECASE)
+            if int(w[0]) >= 500 and int(h[0]) >= 300:
+                url2 = scrapertools.find_single_match (match, 'src\s*=\s*["\']([^"\']+)')
+                logger.info("buscando en iframe "+url2)
+
+                headers = DEFAULT_HEADERS[:]
+                headers.append(["Referer",item.url])
+                try:
+                    data = scrapertools.cachePage(url2,headers=headers)
+                except:
+                    continue
+                if data == '':
+                    continue
+
+                headers = DEFAULT_HEADERS[:]
+                headers.append(["Referer",url2])
+                url =  buscar_url_valida(data, headers)
+                if url != '':
+                    break
+
+    if url != '':
+        itemlist.append( Item(channel=__channel__, title=item.title , url=url, server='directo'))
+    else:
+        logger.info("NO DETECTADO SERVIDOR")
+
+    return itemlist
+
+
+def buscar_url_valida(data, headers):
+    logger.info("[miequipo.py] buscar_url_valida")
     if (DEBUG): logger.info("data="+data)
 
     # unescape de posible código javascript "oculto"
@@ -190,9 +235,6 @@ def play(item):
         data = data.replace(ofuscado, urllib.unquote(ofuscado))
     #if (DEBUG): logger.info("datanoofus="+data)
 
-    headers = DEFAULT_HEADERS[:]
-    headers.append(["Referer",item.url])
-
     # Ejecuta find_url_play en cada servidor hasta encontrar una url
     for serverid in SPORTS_SERVERS:
         try:
@@ -200,7 +242,7 @@ def play(item):
             server_module = getattr(servers_module,serverid)
             url = server_module.find_url_play(data, headers)
             if url != '':
-                break
+                return url
         except ImportError:
             logger.info("No existe conector para "+serverid)
         except:
@@ -214,10 +256,4 @@ def play(item):
                 for line_split in line_splits:
                     logger.error(line_split)
 
-
-    if url != '':
-        itemlist.append( Item(channel=__channel__, title=item.title , url=url, server='directo'))
-    else:
-        logger.info("NO DETECTADO SERVIDOR")
-
-    return itemlist
+    return '' # no encontrada
