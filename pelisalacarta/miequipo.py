@@ -45,8 +45,10 @@ def mainlist(item):
     itemlist = []
     
     itemlist.append( Item(channel=__channel__, action="lshunter"    , title="LSHunter.tv"       , url="http://www.drakulastream.eu" ))
-    itemlist.append( Item(channel=__channel__, action="firstrow"    , title="FirstRowSports.eu" , url="http://www.ifeed2all.eu/type/football.html" ))
     itemlist.append( Item(channel=__channel__, action="rojadirecta" , title="RojaDirecta.me"    , url="http://www.rojadirecta.me" ))
+    itemlist.append( Item(channel=__channel__, action="firstrow"    , title="FirstRowSports.eu" , url="http://www.ifeed2all.eu/type/football.html" ))
+
+    itemlist.append( Item(channel="configuracion", action="mainlist" , title="Configuración mi equipo : [COLOR=green][B]"+MIEQUIPO+'[/B][/COLOR]' ))
 
     return itemlist
 
