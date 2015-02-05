@@ -70,7 +70,7 @@ Los enlaces dependen de servidores externos.
 - [x] ustream : ok
 - [x] myhdcast/liveligatv : ok
 - [x] goodcast/tuttosportweb : ok
-- [x] liveall : ok
+- [x] liveall, leton : ok
 - [x] jjcast : ok
 - [ ] ucaster/tashtv : url final teóricamente resuelta, pero falla
 - [ ] ezcast : teóricamente resuelta url, pero falla
