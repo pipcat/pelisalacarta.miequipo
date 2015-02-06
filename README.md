@@ -1,3 +1,5 @@
+proyecto obsoleto!, la nueva versión está en: **https://github.com/pipcat/pelisalacarta.sports**
+
 # pelisalacarta.miequipo
 Canal extra para añadir al plugin pelisalacarta, que permite ver los partidos de mi equipo.
 
